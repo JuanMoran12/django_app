@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado de la Auditoría - {{ carrera|default:'General' }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'resultado.css' %}">
+    <style>
+        .progreso {
+            background: {{ color|default:'#3498db' }} !important;
+        }
+        .puntaje-valor {
+            color: {{ color|default:'#3498db' }} !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="resultado-container">
+        <div class="resultado-resumen">
+            <div class="resultado-puntaje">
+                <h2>Resumen de la Evaluación</h2>
+                <div class="puntaje-valor">{{ porcentaje }}%</div>
+                <div class="barra-progreso">
+                    <div class="progreso">
+                        {{ porcentaje }}%
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #2ecc71;">{{ si|default:0 }}</div>
+                    <div class="stat-label">Respuestas Correctas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #e74c3c;">{{ no|default:0 }}</div>
+                    <div class="stat-label">Respuestas Incorrectas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #3498db;">{{ total|default:0 }}</div>
+                    <div class="stat-label">Total de Preguntas</div>
+                </div>
+            </div>
+
+            <div class="recomendaciones">
+                <h2>Recomendaciones</h2>
+                <ul>
+                    {% if porcentaje >= 80 %}
+                        <li><i class="fas fa-check-circle"></i> Excelente trabajo. Se recomienda mantener los estándares actuales.</li>
+                        <li><i class="fas fa-check-circle"></i> Realizar mantenimiento preventivo regular.</li>
+                        <li><i class="fas fa-check-circle"></i> Continuar con las buenas prácticas de seguridad informática.</li>
+                    {% elif porcentaje >= 60 %}
+                        <li><i class="fas fa-info-circle"></i> Hay áreas de oportunidad para mejorar.</li>
+                        <li><i class="fas fa-info-circle"></i> Revisar los puntos con respuesta negativa.</li>
+                        <li><i class="fas fa-info-circle"></i> Implementar un plan de mejora continua.</li>
+                    {% else %}
+                        <li><i class="fas fa-exclamation-circle"></i> Se requiere atención inmediata a las áreas críticas.</li>
+                        <li><i class="fas fa-exclamation-circle"></i> Implementar medidas correctivas urgentes.</li>
+                        <li><i class="fas fa-exclamation-circle"></i> Capacitar al personal en buenas prácticas.</li>
+                        <li><i class="fas fa-exclamation-circle"></i> Establecer un plan de acción para mejorar la seguridad.</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="text-center">
+                <a href="{% url 'home' %}" class="btn-volver">
+                    <i class="fas fa-arrow-left"></i> Volver al Inicio
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+*.egg-info/
+
+# Django
+staticfiles/
+media/
+
+# Envs & tooling
+.env
+.venv/
+venv/
+.env.*
+
+# VCS
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# SQLite editor project files
+*.sqbpro

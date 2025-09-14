@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Sistema de Auditoría</title>
+    <link rel="stylesheet" href="{% static 'login.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="{% static 'images/logo UTS cuadrado.png' %}" alt="Logo">
+                <h1>Sistema de Auditoría</h1>
+                <p>Por favor ingrese sus credenciales para continuar</p>
+            </div>
+            
+            <form method="post" class="login-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input 
+                            id="ent_usuario" 
+                            name="Usuario" 
+                            type="text" 
+                            placeholder="Usuario"
+                            required
+                        >
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input 
+                            id="ent_clave" 
+                            name="Clave" 
+                            type="password" 
+                            placeholder="Contraseña"
+                            required
+                        >
+                    </div>
+                </div>
+                
+                {% if error %}
+                <div class="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    {{ error }}
+                </div>
+                {% endif %}
+                
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Iniciar Sesión
+                </button>
+                
+                <!--<div class="login-footer">
+                    <a href="#" class="forgot-password">¿Olvidó su contraseña?</a>
+                </div>-->
+            </form>
+        </div>
+        
+        <div class="login-branding">
+            <p>Sistema de Auditoría Interna</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Auditoría - Inicio</title>
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="barraup">
+            <div class="logo-container">
+                <img src="{% static 'images/logo UTS cuadrado.png' %}" alt="Logo">
+                <h1 class="encabezado">Sistema de Auditoría U.T.S</h1>
+            </div>
+            <div class="user-info">
+                <span class="username">{{ user.username }}</span>
+                <a href="/cerrar/" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+        
+        <div class="cont_principal">
+            <div class="barra_lateral">
+                <a href="/home/" class="boton active">
+                    <i class="fas fa-home"></i>
+                    Inicio
+                </a>
+                <a href="/questioner/" class="boton">
+                    <i class="fas fa-list"></i>
+                    Cuestionario
+                </a>
+                <a href="/checklist/" class="boton">
+                    <i class="fas fa-clipboard-check"></i>
+                    Checklist
+                </a>
+                <a href="/informes/" class="boton">
+                    <i class="fas fa-chart-bar"></i>
+                    Resultados
+                </a>
+            </div>
+            
+            <div class="contenido-principal">
+                <div class="bienvenida">
+                    <h1>Bienvenido a SEE</h1>
+                    <p class="subtitulo">Sistema de Evaluación de Equipos del Instituto Tecnológico U.T.S</p>
+                </div>
+                
+                <div class="estadisticas">
+                    <div class="tarjeta">
+                        <div class="tarjeta-icono">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="tarjeta-contenido">
+                            <h3>Checklists Completados</h3>
+                            <p class="numero">{{ total_checklists }}</p>
+                            <p class="detalle">Total de evaluaciones realizadas</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tarjeta">
+                        <div class="tarjeta-icono" style="color: #e74c3c;">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="tarjeta-contenido">
+                            <h3>Checklists Fallidos</h3>
+                            <p class="numero">{{ failed_checklists }}</p>
+                            <p class="detalle">Evaluaciones con menos del 50%</p>
+                        </div>
+                    </div>
+                    
+                    <div class="tarjeta">
+                        <div class="tarjeta-icono" style="color: #2ecc71;">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="tarjeta-contenido">
+                            <h3>Porcentaje Promedio</h3>
+                            <p class="numero">{{ average_percentage }}%</p>
+                            <p class="detalle">Promedio de aprobación</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="acciones-rapidas">
+                    <h2>Acciones Rápidas</h2>
+                    <div class="botones-accion">
+                        <a href="/questioner/" class="boton-accion">
+                            <i class="fas fa-plus-circle"></i>
+                            Nuevo Cuestionario
+                        </a>
+                        <a href="/checklist/" class="boton-accion">
+                            <i class="fas fa-tasks"></i>
+                            Realizar Checklist
+                        </a>
+                        <a href="/informes/" class="boton-accion">
+                            <i class="fas fa-file-alt"></i>
+                            Ver Informes
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

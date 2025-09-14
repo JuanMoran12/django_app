@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de la Auditoría</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'checklist.css' %}">
+    <link rel="stylesheet" href="{% static 'res_cues.css' %}">
+</head>
+<body>
+    <div class="results-container">
+        <div class="result-header">
+            <h1>Resultado de la Auditoría</h1>
+            <p class="result-subtitle">{{ carrera|default:'General' }} - {{ fecha|date:"d/m/Y"|default:'' }}</p>
+        </div>
+        
+        <div class="result-card">
+            <h2>Resumen de la Evaluación</h2>
+            
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ porcentaje|default:0 }}%; background-color: {{ color|default:'#3498db' }};">
+                        {{ porcentaje|default:0 }}%
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-box">
+                    <div class="stat-value" style="color: #2ecc71;">{{ si|default:0 }}</div>
+                    <div class="stat-label">Respuestas Positivas</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" style="color: #e74c3c;">{{ no|default:0 }}</div>
+                    <div class="stat-label">Respuestas Negativas</div>
+                </div>
+                {% if computadoras_evaluadas is not None %}
+                <div class="stat-box">
+                    <div class="stat-value" style="color: #3498db;">{{ computadoras_evaluadas|default:0 }}/{{ computadoras_aprobadas|default:0 }}</div>
+                    <div class="stat-label">Equipos Evaluados/Aprobados</div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="recommendations">
+                <h2>Recomendaciones</h2>
+                <ul>
+                    {% if porcentaje >= 80 %}
+                        <li>Excelente trabajo. Se recomienda mantener los estándares actuales.</li>
+                        <li>Realizar mantenimiento preventivo regular.</li>
+                        <li>Continuar con las buenas prácticas de seguridad informática.</li>
+                    {% elif porcentaje >= 60 %}
+                        <li>Hay áreas de oportunidad para mejorar.</li>
+                        <li>Revisar los puntos con respuesta negativa.</li>
+                        <li>Implementar un plan de mejora continua.</li>
+                    {% else %}
+                        <li>Se requiere atención inmediata a las áreas críticas.</li>
+                        <li>Implementar medidas correctivas urgentes.</li>
+                        <li>Capacitar al personal en buenas prácticas.</li>
+                        <li>Establecer un plan de acción para mejorar la seguridad.</li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        
+        <div class="text-center" style="margin-top: 30px;">
+            <a href="{% url 'home' %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Volver al Inicio
+            </a>
+        </div>
+    </div>
+</body>
+</html>

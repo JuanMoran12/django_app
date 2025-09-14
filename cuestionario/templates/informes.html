@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informes - Sistema de Auditoría</title>
+    <link rel="stylesheet" href="{% static 'informes.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <style>
+        .contenido-principal {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #f5f7fa;
+            min-height: calc(100vh - 70px);
+        }
+        
+        .bienvenida {
+            margin-bottom: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="contenedor">
+        <div class="barraup">
+            <div class="logo-container">
+                <img src="{% static 'images/logo UTS cuadrado.png' %}" alt="Logo">
+                <h1 class="encabezado">Sistema de Auditoría U.T.S</h1>
+            </div>
+            <div class="user-info">
+                <span class="username">{{ user.username }}</span>
+                <a href="/cerrar/" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+        
+        <div class="cont_principal">
+            <div class="barra_lateral">
+                <a href="/home/" class="boton">
+                    <i class="fas fa-home"></i>
+                    Inicio
+                </a>
+                <a href="/questioner/" class="boton">
+                    <i class="fas fa-list"></i>
+                    Cuestionario
+                </a>
+                <a href="/checklist/" class="boton">
+                    <i class="fas fa-clipboard-check"></i>
+                    Checklist
+                </a>
+                <a href="/informes/" class="boton active">
+                    <i class="fas fa-chart-bar"></i>
+                    Resultados
+                </a>
+            </div>
+            
+            <div class="contenido-principal">
+                <div class="bienvenida">
+                    <h1>Informes de Auditoría</h1>
+                    <p class="subtitulo">Consulte los informes y evalúe el rendimiento de los equipos</p>
+                </div>
+            <div class="campo-busqueda">
+                <div class="filtros-busqueda">
+                    <h3 class="titulo-filtros"><i class="fas fa-filter"></i> Buscar</h3>
+                    <form id="form-busqueda" method="get" class="formulario-busqueda">
+                        {% csrf_token %}
+                        <div class="busqueda-grupo">
+                            <input type="search" 
+                                   name="carrera" 
+                                   placeholder="Buscar por nombre de carrera..." 
+                                   class="campo-busqueda"
+                                   value="{{ carrera|default:'' }}">
+                            <button type="submit" class="boton-buscar" id="btn-buscar">
+                                <i class="fas fa-search"></i> Buscar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div id="resultados-ajax" class="resultados-busqueda">
+                    <!-- Los resultados se cargarán aquí dinámicamente -->
+                </div>
+                
+                <div class="informes-container">
+                    <div class="busqueda-container">
+                        <div class="filtros-avanzados">
+                            <div class="filtro-grupo">
+                                <label for="fecha-inicio">Fecha Inicio:</label>
+                                <input type="date" id="fecha" name="fecha" class="campo-fecha">
+                            </div>
+                            <div class="filtro-grupo">
+                                <label for="estado">Estado:</label>
+                                <select id="estado" name="estado" class="campo-select">
+                                    <option value="aprobado">Aprobado</option>
+                                    <option value="rechazado">Rechazado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if consulta %}
+                    <div class="resultados-busqueda">
+                        <h3><i class="fas fa-search"></i> Resultados de búsqueda para "{{ consulta }}"</h3>
+                        {% if lista_de_tupla %}
+                            <div class="lista-resultados">
+                                {% for resultado in lista_de_tupla %}
+                                    <div class="item-resultado">
+                                        <i class="fas fa-file-alt"></i>
+                                        <div class="resultado-contenido">
+                                            <h4>{{ resultado.nombre|default:resultado }}</h4>
+                                            {% if resultado.fecha %}
+                                                <span class="resultado-fecha">
+                                                    <i class="far fa-calendar-alt"></i> 
+                                                    {{ resultado.fecha|date:"d/m/Y" }}
+                                                </span>
+                                            {% endif %}
+                                            {% if resultado.porcentaje is not None %}
+                                                <div class="resultado-porcentaje">
+                                                    <div class="barra-progreso">
+                                                        <div class="progreso" style="width: {{ resultado.porcentaje }}%;"></div>
+                                                        <span class="porcentaje-texto">{{ resultado.porcentaje }}%</span>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                        <a href="#" class="boton-ver-detalle">
+                                            Ver Detalle
+                                            <i class="fas fa-chevron-right"></i>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="estado-vacio">
+                                <i class="fas fa-inbox"></i>
+                                <h3>No se encontraron resultados</h3>
+                                <p>Intenta con otros términos de búsqueda o ajusta los filtros.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% elif error %}
+                        <div class="mensaje-error">
+                            <i class="fas fa-exclamation-circle"></i>
+                            {{ error }}
+                        </div>
+                    {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <script src="{% static 'informes.js' %}"></script>
+</body>
+</html>

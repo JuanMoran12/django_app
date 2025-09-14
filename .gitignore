@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Django related
+/staticfiles/
+/media/
+
+# SQLite database (keep data out of git)
+/db.sqlite3
+/data/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# VSCode / IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Local environment files (secrets)
+.env
+.env.*
+
+# Node / frontend
+node_modules/
+
+# Python packaging
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Docker
+*.pid

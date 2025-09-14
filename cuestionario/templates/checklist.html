@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist - Sistema de Auditoría</title>
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="{% static 'checklist.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="barraup">
+            <div class="logo-container">
+                <img src="{% static 'images/logo UTS cuadrado.png' %}" alt="Logo">
+                <h1 class="encabezado">Sistema de Auditoría U.T.S</h1>
+            </div>
+            <div class="user-info">
+                <span class="username">{{ user.username }}</span>
+                <a href="/cerrar/" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </a>
+            </div>
+        </div>
+        
+        <div class="cont_principal">
+            <div class="barra_lateral">
+                <a href="/home/" class="boton">
+                    <i class="fas fa-home"></i>
+                    Inicio
+                </a>
+                <a href="/questioner/" class="boton">
+                    <i class="fas fa-list"></i>
+                    Cuestionario
+                </a>
+                <a href="/checklist/" class="boton active">
+                    <i class="fas fa-clipboard-check"></i>
+                    Checklist
+                </a>
+                <a href="/informes/" class="boton">
+                    <i class="fas fa-chart-bar"></i>
+                    Resultados
+                </a>
+            </div>
+            
+            <div class="contenido-principal">
+                <div class="bienvenida">
+                    <h1>Checklist de Auditoría</h1>
+                    <p class="subtitulo">Complete el siguiente formulario para evaluar los equipos del instituto</p>
+                </div>
+                
+                <div class="checklist-container">
+                    <form method="POST" class="formulario-checklist">
+                        {% csrf_token %}
+                        <div class="preguntas-lista">
+                            {% for pregunta in resultado %}
+                            <div class="pregunta-item">
+                                <input type="hidden" name="escondido_{{ pregunta.id }}" value="{{ pregunta.id }}" required>
+                                <p class="pregunta-texto">{{ forloop.counter }}. {{ pregunta.pregunta }}</p>
+                                <div class="opciones">
+                                    <label class="opcion">
+                                        <input type="radio" name="respuesta_{{ pregunta.id }}" value="1" required>
+                                        <span>Sí</span>
+                                    </label>
+                                    <label class="opcion">
+                                        <input type="radio" name="respuesta_{{ pregunta.id }}" value="0" required>
+                                        <span>No</span>
+                                    </label>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="acciones-formulario">
+                            <button type="submit" class="btn-enviar">
+                                <i class="fas fa-paper-plane"></i>
+                                Enviar Evaluación
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
